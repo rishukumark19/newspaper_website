@@ -25,7 +25,7 @@ bootstrap.min.css" rel="stylesheet" integrity="sha384..." crossorigin="anonymous
                         <a class="nav-link active" aria-current="page" href="#">Home</a>
                     </li>
                     {% if user.is_authenticated %}
-                    <li><a href="#" class="nav-link px-2 link-dark">+ New</a></li>
+                    <li><a href="{% url 'article_new' %}" class="nav-link px-2 link-dark">+ New</a></li>
                 </ul>
                 <div class="mr-auto">
                     <ul class="navbar-nav">
@@ -49,15 +49,14 @@ bootstrap.min.css" rel="stylesheet" integrity="sha384..." crossorigin="anonymous
                                 </li>
                             </ul>
                         </li>
-                        {% else %}
                     </ul>
                 </div>
-                <div class="mr-auto">
-                    <form class="form d-flex">
-                        <a href="{% url 'login' %}" class="btn btn-outline-secondary">Log in</a>
-                        <a href="{% url 'signup' %}" class="btn btn-primary ms-2">Sign up</a>
-                    </form>
-                </div>
+                {% else %}
+                </ul>
+                <form class="form d-flex">
+                    <a href="{% url 'login' %}" class="btn btn-outline-secondary">Log in</a>
+                    <a href="{% url 'signup' %}" class="btn btn-primary ms-2">Sign up</a>
+                </form>
                 {% endif %}
             </div>
         </div>
