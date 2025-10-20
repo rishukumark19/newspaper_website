@@ -29,11 +29,12 @@ SECRET_KEY = env.str("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = [".vercel.app", "localhost", "127.0.0.1"]
 
 if VERCEL_URL := env.str("VERCEL_URL", default=None):
-    ALLOWED_HOSTS.append(VERCEL_URL.split("://")[1])
-    CSRF_TRUSTED_ORIGINS = [VERCEL_URL]
+    # The VERCEL_URL is given with the scheme (e.g., https://),
+    # which is what CSRF_TRUSTED_ORIGINS requires.
+    CSRF_TRUSTED_ORIGINS = [f"https://{VERCEL_URL}"]
 
 
 # Application definition
