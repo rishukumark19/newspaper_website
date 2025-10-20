@@ -32,8 +32,8 @@ DEBUG = env.bool("DEBUG", default=False)
 ALLOWED_HOSTS = [".vercel.app", "localhost", "127.0.0.1"]
 
 if VERCEL_URL := env.str("VERCEL_URL", default=None):
-    # The VERCEL_URL is given with the scheme (e.g., https://),
-    # which is what CSRF_TRUSTED_ORIGINS requires.
+    # The VERCEL_URL from Vercel is just the hostname.
+    # CSRF_TRUSTED_ORIGINS requires the scheme (https://).
     CSRF_TRUSTED_ORIGINS = [f"https://{VERCEL_URL}"]
 
 
