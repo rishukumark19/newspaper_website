@@ -29,12 +29,12 @@ SECRET_KEY = env.str("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
 
-ALLOWED_HOSTS = [".vercel.app", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
-if VERCEL_URL := env.str("VERCEL_URL", default=None):
-    # The VERCEL_URL from Vercel is just the hostname.
-    # CSRF_TRUSTED_ORIGINS requires the scheme (https://).
-    CSRF_TRUSTED_ORIGINS = [f"https://{VERCEL_URL}"]
+RENDER_EXTERNAL_HOSTNAME = env.str("RENDER_EXTERNAL_HOSTNAME", default=None)
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+    CSRF_TRUSTED_ORIGINS = [f"https://{RENDER_EXTERNAL_HOSTNAME}"]
 
 
 # Application definition
@@ -59,7 +59,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware", # new
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -130,6 +130,14 @@ USE_TZ = True
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -142,11 +150,3 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5" # new
 CRISPY_TEMPLATE_PACK = "bootstrap5" # new
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend" # new
 TIME_ZONE = "America/New_York" # new
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}

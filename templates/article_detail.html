@@ -14,4 +14,22 @@
     {% endif %}
     <p>Back to <a href="{% url 'article_list' %}">All Articles</a>.</p>
 </div>
+<hr>
+<h3>Comments</h3>
+{% for comment in object.comment_set.all %}
+<p>
+    <span class="fw-bold">{{ comment.author }}</span> &middot;
+    {{ comment }}
+</p>
+{% endfor %}
+<hr>
+<h3>Add a comment</h3>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn btn-success" type="submit">
+        Save
+    </button>
+</form>
+</div>
 {% endblock content %}
